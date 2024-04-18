@@ -1,3 +1,4 @@
+'use client';
 import React from 'react';
 import { images } from '@/app/Components/constants';
 import Image from "next/image";
@@ -5,7 +6,9 @@ import right from '../right.svg'
 import left from "../left.svg";
 import { motion } from "framer-motion";
 import Link from 'next/link';
-
+import { useState } from 'react';
+import postCotizacion from '@/app/Components/connection/postCotizacion';
+import { set } from 'zod';
 
 type Props = {
     activeImage: any;
@@ -14,6 +17,22 @@ type Props = {
   };
   
   const Description = ({ activeImage, clickNext, clickPrev }: Props) => {
+    const [cotizacionData, setCotizacionData] = useState(null);
+    const token = localStorage.getItem('token');
+    const idCliente = localStorage.getItem('IdCliente');
+    const handleCotizacion = async () => {
+      if (idCliente) {
+        const id = parseInt(idCliente);
+        const response = await postCotizacion(id);
+        setCotizacionData(response);
+        const idCotizacion = response.idCotizacion;
+        localStorage.setItem('idCotizacion', idCotizacion);
+        console.log('el id de la cotizacion es', idCotizacion);
+        console.log('cotizacion hecha con exito', response);
+      } else {
+        alert('Por favor, inicie sesion para cotizar');
+      }
+    } 
     return (
       <div className="grid place-items-start w-full bg-[#e7dfd9] relative md:rounded-tr-3xl md:rounded-br-3xl">
         <div className="uppercase text-sm absolute right-4 top-2 underline-offset-4 underline">
@@ -69,7 +88,8 @@ type Props = {
               >
                 <Image src={right} alt="" />
               </div>
-              <Link href="/Login"
+              <Link href={token ? "/Cotizar" : "/Login"}
+              onClick={token ? handleCotizacion : () => {alert('Por favor, inicie sesion para cotizar')}}
               className="bg-[#ecae7e] text-white uppercase px-4 py-2 rounded-md my-10">
                 Cotizar
               

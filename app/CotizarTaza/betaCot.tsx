@@ -10,7 +10,8 @@ import Link from 'next/link';
 
 
 const BetaCot = () => {
-
+  const idCotizacion = localStorage.getItem('idCotizacion');
+  console.log('el id de la cotizacion es', idCotizacion);
   const [file, setFile] = useState<File | null>(null);
   const [progress, setProgress] = useState({ started: false, pc: 0 });
   const [msg, setMsg] = useState('');
@@ -62,7 +63,7 @@ const BetaCot = () => {
     });
     axios
       .post(
-        'http://www.xclusivedesigns.somee.com/api/Cotizacion/8/productos',
+        `http://www.xclusivedesigns.somee.com/api/Cotizacion/${idCotizacion}/productos`,
         formData,
         {
           onUploadProgress: (progressEvent: AxiosProgressEvent) => {
