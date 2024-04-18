@@ -1,6 +1,6 @@
 // RegistroCotizacion.tsx
 'use client';
-import Navbar from '@/app/Components/navbar';
+import Navbar from '../Components/nav/NavBar';
 import ImageCotizacion from './Imagecotizacion';
 import FormCotizacion from './FormCotizacion';
 import BetaCot from './betaCot';

@@ -53,11 +53,11 @@ const CategoriaCotizacion = () => {
                 className="rounded-full"
               />
               <h4 className="text-xl font-bold uppercase">Playera</h4>
-              {/* <Link href="/CotizarPlayera"> */}
+              <Link href="/CotizarPlayera"> */
               <button className="rounded-full bg-slate-500 px-8 py-2.5">
                 Personalizar
               </button>
-              {/* </Link> */}
+              </Link>
             </div>
           </div>
 
