@@ -2,13 +2,9 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import SearchBar from './searchBar';
-import { CiShoppingCart } from 'react-icons/ci';
-// import {BsChevronCompactUp} from "react-icons/bs"
-import { BiSearch } from 'react-icons/bi';
-import { BsChevronCompactUp } from 'react-icons/bs';
 import LongOut from './nav/longOut';
-// import SearchBar from './SearchBar'
-//import {signIn, signOut, useSession } from 'next-auth/react'
+import postCotizacion from './connection/postCotizacion';
+
 
 type Props = {};
 
@@ -17,12 +13,26 @@ const Navbar = (props: Props) => {
   const [showNav, setShowNav] = useState<boolean>(false);
   const token = localStorage.getItem('token');
   const name = localStorage.getItem('name');
+  const idCliente = localStorage.getItem('IdCliente');
+  const [cotizacionData, setCotizacionData] = useState(null);
   const handleLogout = () => {
     // Aquí va tu código para cerrar la sesión, por ejemplo:
     localStorage.removeItem('token');
-    // Recargar la página
-    location.reload();
+    localStorage.clear();
+    window.location.href = '/';
   };
+  
+  const handleCotizacion = async () => {
+    if (idCliente) {
+      const id = parseInt(idCliente);
+      const response = await postCotizacion(id);
+      setCotizacionData(response);
+      const idCotizacion = response.idCotizacion;
+      localStorage.setItem('idCotizacion', idCotizacion);
+      console.log('el id de la cotizacion es', idCotizacion);
+      console.log('cotizacion hecha con exito', response);
+    }
+  }
   //const {data:session} = useSession()
   // console.log(session?.user)
 
@@ -65,28 +75,40 @@ const Navbar = (props: Props) => {
                     <span className='inline-block w-full py-3'>Mis Cotizaciones</span>
                   </Link>
                 </li>
-
                 <li>
                   <p>{name}</p>
+                </li>
+                <li>
+                  <Link href={token ? "/Cotizar" : "/Login"}
+                  onClick={token ? handleCotizacion : () => {
+                    alert('Por favor, inicie sesion para cotizar');
+                  }}>
+                    <button className="inline-block w-full py-3">Cotizar</button>
+                  </Link>
                 </li>
                 <li onClick={handleLogout}>
                   <LongOut />
                 </li>
               </ul>
             ) : (
-              <ul className="flex items-center justify-center space-x-7 text-[15px] opacity-70 lg:space-x-10">
+              <ul className="flex flex-row items-center justify-center space-x-7 text-[15px] opacity-70 lg:space-x-10">
                 <li>
-                  <Link href="/registrarse" className="inline-block w-full py-3">
-                    Crear cuenta
-                  </Link>
-                <li>
-                  <Link href="/Login" className="inline-block w-full py-3">
-                    Iniciar sesion
+                  <Link href="/Login" className="inline-block  py-3">
+                    <p>Iniciar Sesion</p>
                   </Link>
                 </li>
+                <li>
+                  <Link href="/registrarse" className="inline-block py-3">
+                    <p>Crear cuenta</p>
+                  </Link>
                 </li>
                 <li>
-                  <button className="inline-block w-full py-3">Cotizar</button>
+                  <Link href={token ? "/Cotizar" : "/Login"}
+                  onClick={token ? handleCotizacion : () => {
+                    alert('Por favor, inicie sesion para cotizar');
+                  }}>
+                    <button className="inline-block w-full py-3">Cotizar</button>
+                  </Link>
                 </li>
               </ul>
             )}
