@@ -20,8 +20,9 @@ const Navbar = (props: Props) => {
   const handleLogout = () => {
     // Aquí va tu código para cerrar la sesión, por ejemplo:
     localStorage.removeItem('token');
+    localStorage.clear();
     // Recargar la página
-    location.reload();
+    window.location.href = '/';
   };
   //const {data:session} = useSession()
   // console.log(session?.user)
@@ -57,17 +58,21 @@ const Navbar = (props: Props) => {
           </div>
         </div>
         <div className="flex items-center space-x-4">
-          <nav className='max-md:hidden'>
+          <nav className="max-md:hidden">
             {token ? (
-              <ul className='flex items-center justify-center space-x-7 text-[15px] opacity-70 lg:space-x-10'>
+              <ul className="flex items-center justify-center space-x-7 text-[15px] opacity-70 lg:space-x-10">
                 <li>
-                  <Link href='/dashboard/Cotizaciones'>
-                    <span className='inline-block w-full py-3'>Mis Cotizaciones</span>
+                  <Link href="/dashboard/Cotizaciones">
+                    <span className="inline-block w-full py-3">
+                      Mis Cotizaciones
+                    </span>
                   </Link>
                 </li>
 
                 <li>
-                  <p>{name}</p>
+                  <Link href="/Cuenta">
+                    <span className="inline-block w-full py-3">{name}</span>
+                  </Link>
                 </li>
                 <li onClick={handleLogout}>
                   <LongOut />
@@ -76,14 +81,17 @@ const Navbar = (props: Props) => {
             ) : (
               <ul className="flex items-center justify-center space-x-7 text-[15px] opacity-70 lg:space-x-10">
                 <li>
-                  <Link href="/registrarse" className="inline-block w-full py-3">
+                  <Link
+                    href="/registrarse"
+                    className="inline-block w-full py-3"
+                  >
                     Crear cuenta
                   </Link>
-                <li>
-                  <Link href="/Login" className="inline-block w-full py-3">
-                    Iniciar sesion
-                  </Link>
-                </li>
+                  <li>
+                    <Link href="/Login" className="inline-block w-full py-3">
+                      Iniciar sesion
+                    </Link>
+                  </li>
                 </li>
                 <li>
                   <button className="inline-block w-full py-3">Cotizar</button>

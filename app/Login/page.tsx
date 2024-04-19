@@ -13,39 +13,38 @@ export default function LoginForm() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const handleSubmit = async (event:  React.FormEvent) => {
+  const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
     try {
       const credentials = {
         correoElectronico: email,
-        contraseña: password
-      }
-      if(!email || !password) {
+        contraseña: password,
+      };
+      if (!email || !password) {
         return alert('Por favor, rellene todos los campos');
       }
       const tokens = await loginApi(credentials);
       if (tokens) {
-
         // Guardar los tokens en localStorage
         localStorage.setItem('token', JSON.stringify(tokens));
         localStorage.setItem('name', tokens.name);
         localStorage.setItem('lastName', tokens.lastName);
-        const idCliente = parseInt(tokens.IdCliente)
+        const idCliente = parseInt(tokens.IdCliente);
         localStorage.setItem('IdCliente', idCliente.toString());
-      
+
         console.log('los tokens del usuario son', tokens);
         console.log('el id del cliente es', idCliente);
-      
+
         if (tokens.name === tokens.name) {
           router.push('/');
         }
       } else {
         alert('No se pudo obtener los tokens del usuario');
-      } 
-    } catch  (error) {
+      }
+    } catch (error) {
       alert('Correo electronico o contraseña incorrectos');
     }
-  }
+  };
   // const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
   //   event.preventDefault();
   //   try {
@@ -108,7 +107,7 @@ export default function LoginForm() {
               onChange={(event) => setPassword(event.target.value)}
               placeholder="Introduce tu contraseña"
               required
-              minLength={6}
+              minLength={2}
               className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm placeholder-gray-500 outline-none"
             />
             <KeyIcon className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-500" />
