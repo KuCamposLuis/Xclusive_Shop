@@ -5,8 +5,6 @@ import { z } from 'zod';
 import { Login } from './models/types';
 import bcrypt from 'bcrypt';
 
-
-
 async function getUser(email: string): Promise<Login | undefined> {
   try {
     const response = await fetch(`https://tu-api.com/usuarios?email=${email}`);
@@ -18,7 +16,7 @@ async function getUser(email: string): Promise<Login | undefined> {
     throw new Error('Failed to fetch user.');
   }
 }
- 
+
 export const { auth, signIn, signOut } = NextAuth({
   ...authConfig,
   providers: [
