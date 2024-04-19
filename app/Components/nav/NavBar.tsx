@@ -5,23 +5,33 @@ import Link from 'next/link';
 import { BsChevronCompactUp, BsCart } from 'react-icons/bs';
 
 import LongOut from './longOut';
-import GetCotizacionesPendientes from '@/app/api/getCotizacionesPendientes';
+// import GetCotizacionesPendientes from '@/app/api/getCotizacionesPendientes';
 import SearchBar from '../searchBar';
+import GetCotizacionId from '@/app/api/getCotizacionId';
+import { Cotizacion } from '../connection/type';
+import GetCotizacionesCliente from '@/app/api/getCotizacionCliente';
 
 let name: string;
 let lastName: string;
 let clientId: string;
+let idCotizacion: string;
 if (typeof window !== 'undefined') {
   name = localStorage.getItem('name') as string;
   lastName = localStorage.getItem('lastName') as string;
   clientId = localStorage.getItem('IdCliente') as string;
+  idCotizacion = localStorage.getItem('idCotizacion') as string;
 }
+
+
+
 
 const Navbar = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [showNav, setShowNav] = useState<boolean>(false);
-  const [cotizacionesPendientes, setcotizacionesPendientes] = useState<any[]>([]);
-
+  // const [cotizacionesPendientes, setcotizacionesPendientes] = useState<Cotizacion[] | undefined>([]);
+  const [cotizacionesPendientes, setcotizacionesPendientes] = useState<Cotizacion | undefined>()
+  const idCotizacionInt = parseInt(idCotizacion);
+  console.log('idCotizacionInt', idCotizacionInt);  
   const openModal = () => {
     setIsModalOpen(true);
   };
@@ -35,16 +45,27 @@ const Navbar = () => {
   }
 
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchCotizacion = async () => {
       try {
-        const productos: any[] = (await GetCotizacionesPendientes(clientId)) as any[];
-        setcotizacionesPendientes(productos);
+        const cotizacionCurso = await GetCotizacionId(idCotizacionInt);
+        setcotizacionesPendientes(cotizacionCurso);
       } catch (error) {
         console.error('Error al obtener las compras:', error);
       }
-    };
-    fetchData();
-  }, []);
+    }
+    fetchCotizacion();
+  })
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     try {
+  //       const productos = await GetCotizacionesCliente()
+  //       setcotizacionesPendientes(productos);
+  //     } catch (error) {
+  //       console.error('Error al obtener las compras:', error);
+  //     }
+  //   };
+  //   fetchData();
+  // }, []);
 
   return (
     <div>
@@ -130,14 +151,29 @@ const Navbar = () => {
                 </button>
               </div>
               <div>
-              {cotizacionesPendientes && cotizacionesPendientes.map((cotizacion) => (
-                  <div key={cotizacion.idCotizacion} className="bg-slate-300 px-2 py-1">
-                    <p>{cotizacion.idCotizacion}</p>
+                {cotizacionesPendientes && (
+                  <div>{cotizacionesPendientes.cotizacionProducto.map((producto) => (
+                    <>
+                      <div>{producto.nombreProducto}</div>
+                      <div>{producto.cantidad}</div>
+                      <div>{producto.color}</div>
+                    </>
+                  ))}</div>
+                )}
+              {/* {cotizacionesPendientes && cotizacionesPendientes.map((cotizacion) => (
+                  <div className="bg-slate-300 px-2 py-1">
+                    <p>{cotizacion.idCliente}</p>
                     <p>{cotizacion.idClienteNavigation.nombre}</p>
                     <p>{cotizacion.estado}</p>
-                    <p>asdf</p>
+                    {cotizacion.cotizacionProducto.map((producto) => (
+                      <div>
+                        <p>{producto.nombreProducto}</p>
+                        <p>{producto.color}</p>
+                        <p>{producto.talla}</p>
+                      </div>
+                    ))}
                   </div>
-                ))}
+                ))} */}
               </div>
             </div>
           </div>

@@ -59,7 +59,13 @@ const Navbar = (props: Props) => {
         <div className="flex items-center space-x-4">
           <nav className='max-md:hidden'>
             {token ? (
-              <ul>
+              <ul className='flex items-center justify-center space-x-7 text-[15px] opacity-70 lg:space-x-10'>
+                <li>
+                  <Link href='/dashboard/Cotizaciones'>
+                    <span className='inline-block w-full py-3'>Mis Cotizaciones</span>
+                  </Link>
+                </li>
+
                 <li>
                   <p>{name}</p>
                 </li>
@@ -68,16 +74,16 @@ const Navbar = (props: Props) => {
                 </li>
               </ul>
             ) : (
-              <ul className="flex items-end space-x-7 text-[15px] opacity-70 lg:space-x-10">
+              <ul className="flex items-center justify-center space-x-7 text-[15px] opacity-70 lg:space-x-10">
+                <li>
+                  <Link href="/registrarse" className="inline-block w-full py-3">
+                    Crear cuenta
+                  </Link>
                 <li>
                   <Link href="/Login" className="inline-block w-full py-3">
                     Iniciar sesion
                   </Link>
                 </li>
-                <li>
-                  <a href="/registrarse" className="inline-block w-full py-3">
-                    Crear cuenta
-                  </a>
                 </li>
                 <li>
                   <button className="inline-block w-full py-3">Cotizar</button>
@@ -116,7 +122,6 @@ const Navbar = (props: Props) => {
           </span> */}
         </div>
       </div>
-      //
       {/* <div
         className={`md:hidden ${
           showNav ? 'px-5 pb-4' : 'invisible h-0 opacity-0'

@@ -8,7 +8,7 @@ import { motion } from "framer-motion";
 import Link from 'next/link';
 import { useState } from 'react';
 import postCotizacion from '@/app/Components/connection/postCotizacion';
-import { set } from 'zod';
+
 
 type Props = {
     activeImage: any;

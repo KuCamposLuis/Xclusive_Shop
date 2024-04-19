@@ -1,15 +1,21 @@
 'use server';
 import axios from 'axios';
+import { defaultMaxListeners } from 'events';
 
-export default async function GetCotizacionesPendientes(cotizacionId: string) {
+const urlCotizaciones = 'http://www.xclusivedesigns.somee.com/api/Cotizacion'
+
+export default async function GetCotizaciones() {
   try {
-    const response = await axios.get(
-      `http://www.xclusivedesigns.somee.com/api/Cotizacion/${cotizacionId}`,
-    );
-    console.log('COTIZACIONES');
-    console.log(response.data);
-    return response.data;
+      const response = await axios.get(urlCotizaciones, {
+          headers: {
+              'Content-Type': 'application/json',
+          },
+      });
+      console.log('Cotizaion');
+      console.log(response.data);
+
+      return response.data;
   } catch (error) {
-    console.error(error);
+      console.error('hubo un problema con trare las cotizaciones',error);
   }
 }
