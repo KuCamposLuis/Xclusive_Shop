@@ -76,7 +76,9 @@ const Navbar = (props: Props) => {
                   </Link>
                 </li>
                 <li>
-                  <p>{name}</p>
+                  <Link href={"/Cuenta"}>
+                    <p>{name}</p>
+                  </Link>
                 </li>
                 <li>
                   <Link href={token ? "/Cotizar" : "/Login"}

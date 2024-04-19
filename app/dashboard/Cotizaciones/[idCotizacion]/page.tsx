@@ -35,6 +35,7 @@ export default function PageCotizacion() {
                                 <p>{prodcuto.materialProducto}</p>
                                 <p>{prodcuto.cantidad}</p>
                                 <p>{prodcuto.nombreProducto}</p>
+                                
                             </div>
                         ))}
                     </div>

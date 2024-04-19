@@ -113,9 +113,9 @@ const Navbar = () => {
                       </a>
                     </li>
                     <li>
-                      <a href="myproducts" className="inline-block w-full py-3">
-                        My Products
-                      </a>
+                      <Link href='/dashboard/Cotizaciones'>
+                        <span className='inline-block w-full py-3'>Mis Cotizaciones</span>
+                      </Link>
                     </li>
                     <li>
                       <p>{name}</p>
